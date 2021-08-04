@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt-nodejs')
 
-
 module.exports = app => {
     const { existisOrError, equalsOrError, notExistsOrError } = app.api.validation
 
@@ -69,5 +68,18 @@ module.exports = app => {
             .catch(error => response.status(500).json({ message: error }))
 
     }
-    return { save, get }
+
+    const getById = (request, response) => {
+        const id = request.params.id
+
+        app.db('users')
+            .select('id', 'name', 'email', 'admin')
+            .where({ id: id })
+            .first()
+            .then(users => response.json(users))
+            .catch(error => response.status(500).json({ message: error }))
+
+
+    }
+    return { save, get, getById }
 }
