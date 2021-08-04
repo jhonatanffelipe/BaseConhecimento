@@ -1,12 +1,13 @@
 module.exports = app => {
     function existisOrError(value, message) {
-        if (!value) {
+        if (!value || value == 0) {
             throw message
         }
         if (Array.isArray(value) && value.length === 0) {
             throw message
         }
         if (typeof value === 'string' && !value.trim()) {
+
             throw message
         }
     }

@@ -46,7 +46,7 @@ module.exports = app => {
 
             response.status(204).send()
         } catch (err) {
-            response.status(400).send(err)
+            response.status(400).json({ message: err })
         }
     }
 

@@ -14,6 +14,7 @@ consign()
     .then('./api/validation.js')
     .then('./api/user.js')
     .then('./api/category.js')
+    .then('./api/article.js')
     .then('./config/routes.js')
     .into(app)
 
