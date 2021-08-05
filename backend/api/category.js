@@ -10,8 +10,8 @@ module.exports = app => {
 
         try {
             existisOrError(category.name, 'Nome não informado')
-        } catch (message) {
-            return response.status(400).json({ message: message })
+        } catch (error) {
+            return response.status(400).send(error)
         }
 
         if (category.id) {
@@ -19,12 +19,12 @@ module.exports = app => {
                 .update(category)
                 .where({ id: category.id })
                 .then(() => response.status(200).json(category))
-                .catch(err => response.status(500).json({ message: err }))
+                .catch(error => response.status(500).send(error))
         } else {
             app.db('categories')
                 .insert(category)
                 .then(() => response.status(200).json(category))
-                .catch(err => response.status(500).json({ message: err }))
+                .catch(error => response.status(500).send(error))
         }
     }
 
@@ -45,8 +45,8 @@ module.exports = app => {
             existisOrError(rowsDeleted, 'Categoria não foi encontrada.')
 
             response.status(204).send()
-        } catch (err) {
-            response.status(400).json({ message: err })
+        } catch (error) {
+            response.status(400).send(error)
         }
     }
 
@@ -80,7 +80,7 @@ module.exports = app => {
     const get = (request, response) => {
         app.db('categories')
             .then(categories => response.json(withPath(categories)))
-            .catch(err => response.status(500).json({ message: err }))
+            .catch(error => response.status(500).send(error))
     }
 
     const getById = (request, response) => {
@@ -88,7 +88,7 @@ module.exports = app => {
             .where({ id: request.params.id })
             .first()
             .then(category => response.status(200).json(category))
-            .catch(err => response.status(500).json({ message: err }))
+            .catch(error => response.status(500).send(error))
 
     }
 
@@ -105,7 +105,7 @@ module.exports = app => {
     const getTree = (request, response) => {
         app.db('categories')
             .then(categories => response.json(toTree(withPath(categories))))
-            .catch(err => response.status(500).json({ message: err }))
+            .catch(error => response.status(500).send(error))
     }
 
     return { save, remove, get, getById, getTree }

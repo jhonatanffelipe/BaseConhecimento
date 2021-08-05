@@ -11,6 +11,7 @@ app.db = db
 
 consign()
     .then('./config/middlewares.js')
+    .then('./api/auth.js')
     .then('./api/validation.js')
     .then('./api/user.js')
     .then('./api/category.js')

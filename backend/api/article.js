@@ -14,8 +14,8 @@ module.exports = app => {
             existisOrError(article.categoryId, 'Categoria não informada.')
             existisOrError(article.userId, 'Autor não informado.')
             existisOrError(article.content, 'Conteúdo não informado.')
-        } catch (err) {
-            response.status(400).json({ messagem: err })
+        } catch (error) {
+            response.status(400).send(error)
         }
 
         if (article.id) {
@@ -23,12 +23,12 @@ module.exports = app => {
                 .update(article)
                 .where({ id: article.id })
                 .then(response.status(200).json(article))
-                .catch(err => response.status(500).json({ message: err }))
+                .catch(error => response.status(500).send(error))
         } else {
             app.db('articles')
                 .insert(article)
                 .then(response.status(200).json(article))
-                .catch(err => response.status(500).json({ message: err }))
+                .catch(error => response.status(500).send(error))
         }
     }
 
@@ -39,14 +39,14 @@ module.exports = app => {
 
             try {
                 existisOrError(rowsDeleted, 'Artigo não foi encontrado.')
-            } catch (err) {
-                response.status(400).json({ messagem: err })
+            } catch (error) {
+                response.status(400).send(error)
             }
 
             response.status(200).send()
 
-        } catch (err) {
-            response.status(500).json({ messagem: err })
+        } catch (error) {
+            response.status(500).send(error)
         }
     }
 
@@ -61,7 +61,7 @@ module.exports = app => {
             .select('id', 'name', 'description')
             .limit(limit).offset(page * limit - limit)
             .then(articles => response.json({ data: articles, count, limit }))
-            .catch(err => response.status(500).json({ messagem: err }))
+            .catch(error => response.status(500).send(error))
     }
 
     const getById = (request, response) => {
@@ -72,7 +72,7 @@ module.exports = app => {
                 article.content = article.content.toString()
                 return response.json(article)
             })
-            .catch(err => response.status(500).json({ message: err }))
+            .catch(error => response.status(500).send(error))
     }
 
     const getByCategory = async (request, response) => {
@@ -88,7 +88,7 @@ module.exports = app => {
             .whereIn('categoryId', ids)
             .orderBy('a.id', 'desc')
             .then(articles => response.json(articles))
-            .catch(err => response.status(500).json({ message: err }))
+            .catch(error => response.status(500).send(error))
     }
 
     return { save, remove, get, getById, getByCategory }

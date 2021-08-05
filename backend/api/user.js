@@ -30,7 +30,7 @@ module.exports = app => {
                 notExistsOrError(userFromDB, 'Usuário já cadastrado')
             }
         } catch (error) {
-            return response.status(400).json({ message: error })
+            return response.status(400).send(error)
         }
 
         user.password = encryptPassword(user.password)
@@ -46,7 +46,7 @@ module.exports = app => {
                     email: user.email,
                     admin: user.admin
                 }))
-                .catch(error => response.status(500).json({ message: error }))
+                .catch(error => response.status(500).send(error))
         } else {
             app.db('users')
                 .insert(user)
@@ -56,7 +56,7 @@ module.exports = app => {
                     email: user.email,
                     admin: user.admin
                 }))
-                .catch(error => response.status(500).json({ message: error }))
+                .catch(error => response.status(500).send(error))
 
         }
     }
@@ -65,7 +65,7 @@ module.exports = app => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
             .then(users => response.json(users))
-            .catch(error => response.status(500).json({ message: error }))
+            .catch(error => response.status(500).send(error))
 
     }
 
@@ -77,7 +77,7 @@ module.exports = app => {
             .where({ id: id })
             .first()
             .then(users => response.json(users))
-            .catch(error => response.status(500).json({ message: error }))
+            .catch(error => response.status(500).send(error))
 
 
     }
