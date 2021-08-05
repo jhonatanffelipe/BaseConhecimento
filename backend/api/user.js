@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt-nodejs')
+const { request } = require('express')
 
 module.exports = app => {
     const { existisOrError, equalsOrError, notExistsOrError } = app.api.validation
@@ -40,6 +41,7 @@ module.exports = app => {
             app.db('users')
                 .update(user)
                 .where({ id: user.id })
+                .whereNull('deletedAt')
                 .then(() => response.status(200).json({
                     id: user.id,
                     name: user.name,
@@ -64,6 +66,7 @@ module.exports = app => {
     const get = (request, response) => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
+            .whereNull('deletedAt')
             .then(users => response.json(users))
             .catch(error => response.status(500).send(error))
 
@@ -75,11 +78,29 @@ module.exports = app => {
         app.db('users')
             .select('id', 'name', 'email', 'admin')
             .where({ id: id })
+            .whereNull('deletedAt')
             .first()
             .then(users => response.json(users))
             .catch(error => response.status(500).send(error))
 
 
     }
-    return { save, get, getById }
+
+    const remove = async (request, response) => {
+        try {
+            const articles = await app.db('articles')
+                .where({ userId: request.params.id })
+            notExistsOrError(articles, 'Usuário possui artigos publicados.')
+
+            const rowsUpdated = await app.db('users')
+                .update({ deletedAt: new Date() })
+                .where({ id: request.params.id })
+            existisOrError(rowsUpdated, 'Usuário não foi encontrado.')
+
+            response.status(204).send()
+        } catch (error) {
+            response.status(400).send(error)
+        }
+    }
+    return { save, get, getById, remove }
 }
