@@ -24,8 +24,12 @@ module.exports = app => {
         .post(app.api.article.save)
         .get(app.api.article.get)
 
+    app.route('/categories/:id/articles')
+        .get(app.api.article.getByCategory)
+
     app.route('/articles/:id')
         .put(app.api.article.save)
         .get(app.api.article.getById)
         .delete(app.api.article.remove)
+
 }
