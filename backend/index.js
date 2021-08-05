@@ -1,5 +1,8 @@
 const express = require('express')
 const consign = require('consign')
+const mongoose = require('mongoose')
+
+require('./config/mongodb')
 
 const app = express()
 
@@ -7,6 +10,7 @@ const app = express()
 const db = require('./config/db')
 
 app.db = db
+app.mongoose = mongoose
 
 
 consign()

@@ -45,4 +45,8 @@ module.exports = app => {
         .get(app.api.article.getById)
         .delete(admin(app.api.article.remove))
 
+    app.route('/stat')
+        .all(app.config.passport.authenticate())
+        .get(app.api.stat.get)
+
 }
