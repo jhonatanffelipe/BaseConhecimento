@@ -16,12 +16,14 @@ export default {
   },
   computed: {
     icon() {
-      return "fa-angle-left";
+      return this.$store.state.isMenuVisible
+        ? "fa-angle-left"
+        : "fa-angle-right";
     },
   },
   methods: {
     toglleMenu() {
-      console.log("Clicou.");
+      this.$store.commit("toggleMenu");
     },
   },
 };
