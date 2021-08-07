@@ -3,7 +3,7 @@ module.exports = app => {
         users: Number,
         categories: Number,
         articles: Number,
-        cretedAt: Date
+        createdAt: Date
     })
 
     const get = (request, response) => {

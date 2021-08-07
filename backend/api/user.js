@@ -15,7 +15,7 @@ module.exports = app => {
 
         if (request.params.id) user.id = request.params.id
 
-        if (!request.originalUrl.startWith('/users')) user.admin = false
+        if (!request.originalUrl.startsWith('/users')) user.admin = false
         if (!request.user || !request.user.admin) user.admin = false
 
 
