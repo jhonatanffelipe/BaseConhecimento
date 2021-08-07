@@ -10,6 +10,7 @@
               type="text"
               v-model="user.name"
               required
+              :readonly="mode === 'remove'"
               placeholder="Informe o Nome do usuário"
             />
           </b-form-group>
@@ -21,13 +22,23 @@
               type="email"
               v-model="user.email"
               required
+              :readonly="mode === 'remove'"
               placeholder="Informe o E-mail do usuário"
             />
           </b-form-group>
         </b-col>
       </b-row>
 
-      <b-row>
+      <b-form-checkbox
+        id="user-admin"
+        v-show="mode === 'save'"
+        v-model="user.admin"
+        class="mt-3 mb-3"
+      >
+        Administrador?
+      </b-form-checkbox>
+
+      <b-row v-show="mode === 'save'">
         <b-col md="6" sm="12">
           <b-form-group label="Senha:" lobel-for="user-password">
             <b-form-input
@@ -35,6 +46,7 @@
               type="password"
               v-model="user.password"
               required
+              :readonly="mode === 'remove'"
               placeholder="Informe a Senha do usuário"
             />
           </b-form-group>
@@ -49,26 +61,36 @@
               type="password"
               v-model="user.confirmPassword"
               required
+              :readonly="mode === 'remove'"
               placeholder="Confirme a senha do usuário"
             />
           </b-form-group>
         </b-col>
       </b-row>
 
-      <b-form-checkbox id="user-admin" v-model="user.admin" class="mt-3 mb-3">
-        Administrador?
-      </b-form-checkbox>
-
-      <b-button variant="primary" v-if="mode === 'save'" @click="save">
-        Salvar
-      </b-button>
-      <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
-        Excluir
-      </b-button>
-      <b-button class="ml-2" @click="reset"> Cancelar </b-button>
+      <b-row class="mb-5">
+        <b-col xs="12">
+          <b-button variant="primary" v-if="mode === 'save'" @click="save">
+            Salvar
+          </b-button>
+          <b-button variant="danger" v-if="mode === 'remove'" @click="remove">
+            Excluir
+          </b-button>
+          <b-button class="ml-2" @click="reset"> Cancelar </b-button>
+        </b-col>
+      </b-row>
     </b-form>
 
-    <b-table hover stiped :items="users" :fields="fields"> </b-table>
+    <b-table hover stiped :items="users" :fields="fields">
+      <template v-slot:cell(actions)="data">
+        <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
+          <i class="fa fa-pencil"></i>
+        </b-button>
+        <b-button variant="danger" @click="loadUser(data.item, 'remove')">
+          <i class="fa fa-trash"></i>
+        </b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -93,7 +115,7 @@ export default {
           sortable: true,
           formatter: (value) => (value ? "Sim" : "Não"),
         },
-        { key: "action", label: "Ações" },
+        { key: "actions", label: "Ações" },
       ],
     };
   },
@@ -113,6 +135,12 @@ export default {
       const method = this.user.id ? "put" : "post";
       const id = this.user.id ? `/${this.user.id}` : "";
 
+      if (!this.user.password) {
+        delete this.user.password;
+        delete this.user.confirmPassword;
+
+        console.log(this.user);
+      }
       axios[method](`${baseUrl}/users${id}`, this.user)
         .then(() => {
           this.$toasted.global.defaultSuccess();
@@ -129,6 +157,10 @@ export default {
           this.reset();
         })
         .cath(showError);
+    },
+    loadUser(user, mode = "save") {
+      this.mode = mode;
+      this.user = { ...user };
     },
   },
   mounted() {
