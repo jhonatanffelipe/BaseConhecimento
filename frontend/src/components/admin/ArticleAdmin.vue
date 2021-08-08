@@ -102,6 +102,12 @@
         </b-button>
       </template>
     </b-table>
+    <b-pagination
+      size="md"
+      v-model="page"
+      :total-rows="count"
+      :per-page="limit"
+    />
   </div>
 </template>
 
@@ -125,14 +131,14 @@ export default {
       fields: [
         { key: "id", label: "Código", sortable: true },
         { key: "name", label: "Artigo", sortable: true },
-        { key: "despription", label: "Descrição", sortable: true },
+        { key: "description", label: "Descrição", sortable: true },
         { key: "actions", label: "Ações" },
       ],
     };
   },
   methods: {
     loadArticles() {
-      const url = `${baseUrl}/articles`;
+      const url = `${baseUrl}/articles?page=${this.page}`;
       axios.get(url).then((response) => {
         //this.articles = response.data;
         this.articles = response.data.data;
@@ -193,6 +199,11 @@ export default {
           };
         });
       });
+    },
+  },
+  watch: {
+    page() {
+      this.loadArticles();
     },
   },
   mounted() {
