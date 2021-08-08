@@ -50,7 +50,7 @@ module.exports = app => {
         }
     }
 
-    const limit = 10
+    const limit = 3
     const get = async (request, response) => {
         const page = request.query.page || 1
 
