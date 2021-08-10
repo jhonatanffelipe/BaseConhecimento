@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+export const userKey = '__baseConhecimento_user'
 export const baseUrl = 'http://localhost:3000'
 
 export function showError(e) {
