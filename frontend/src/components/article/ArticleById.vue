@@ -12,7 +12,11 @@
 <script>
 import axios from "axios";
 import { baseUrl } from "@/global";
+import hljs from "highlightjs/highlight.pack.js";
 import PageTitle from "../template/PageTitle.vue";
+
+import "highlightjs/styles/dracula.css";
+
 export default {
   name: "ArticleById",
   components: { PageTitle },
@@ -24,6 +28,11 @@ export default {
   mounted() {
     const url = `${baseUrl}/articles/${this.$route.params.id}`;
     axios.get(url).then((response) => (this.article = response.data));
+  },
+  updated() {
+    document.querySelectorAll(".article-content pre").forEach((e) => {
+      hljs.highlightBlock(e);
+    });
   },
 };
 </script>
