@@ -61,7 +61,7 @@ export default {
       axios
         .post(`${baseUrl}/signin`, this.user)
         .then((response) => {
-          this.$store.commit("serUser", response.data);
+          this.$store.commit("setUser", response.data);
           localStorage.setItem(userKey, JSON.stringify(response.data));
           this.$router.push({ path: "/" });
         })
