@@ -50,7 +50,10 @@ export default {
 
       if (response.data) {
         this.$store.commit("setUser", userData);
-        this.$router.push({ name: "/" });
+
+        if (this.$mq === "xs" || this.$mq === "sm") {
+          this.$store.commit("toggleMenu", false);
+        }
       } else {
         localStorage.removeItem(userkey);
         this.$router.push({ name: "auth" });
