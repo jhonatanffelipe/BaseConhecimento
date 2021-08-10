@@ -68,7 +68,6 @@ export default {
         .catch(showError);
     },
     signup() {
-      console.log(this.user);
       axios
         .post(`${baseUrl}/signup`, this.user)
         .then(() => {
