@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import axios from "axios";
+import { baseUrl, userkey } from "@/global";
 import { mapState } from "vuex";
 
 import Header from "@/components/template/Header.vue";
@@ -23,6 +25,40 @@ export default {
   name: "App",
   components: { Header, Menu, Content, Footer },
   computed: mapState(["isMenuVisible", "user"]),
+  data: function () {
+    return {
+      validatingToken: true,
+    };
+  },
+  methods: {
+    async validateToken() {
+      this.validatingToken = true;
+
+      const json = localStorage.getItem(userkey);
+      const userData = JSON.parse(json);
+      this.$store.commit("setUser", null);
+
+      if (!userData) {
+        this.validatingToken = false;
+        this.$router.push({ name: "auth" });
+        return;
+      }
+
+      const response = await axios(`${baseUrl}/validateToken`, userData);
+
+      if (response.data) {
+        this.$store.commit("setUser", userData);
+      } else {
+        localStorage.removeItem(userkey);
+        this.$router.push({ name: "auth" });
+      }
+
+      this.validateToken = false;
+    },
+  },
+  created() {
+    this.validateToken();
+  },
 };
 </script>
 
