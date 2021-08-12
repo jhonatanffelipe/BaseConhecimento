@@ -28,6 +28,12 @@ Uma API REST desenvolvida em NodeJS. É responsável por servir os dados para a 
 
 <img alt="DevRadar" src="https://raw.githubusercontent.com/jhonatanffelipe/BaseConhecimento/main/assets/Dashboard.png" height="350px" />
 
+#### Tecnologia utilizadas na construção do Frontend
+
+- [Javascript](https://www.javascript.com/)
+- [Vue](https://vuejs.org/)
+- [Axios](https://www.npmjs.com/package/axios)
+
 
 ## Como Executar a aplicação?
 
