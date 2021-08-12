@@ -1,7 +1,16 @@
 # Base Conhecimento
+
 O projeto foi desenvolvido ao longo do curso de web moderno da cod3r.
 
 A ideia do projeto é uma plataforma que permita aos usuários postarem artigos sobre um determinado assunto. Possibilitando o compartilhamento de conhecimento em diversas áreas.
+
+<p align="center">
+   <img alt="Tecnologias" src="https://img.shields.io/github/languages/count/jhonatanffelipe/BaseConhecimento?color=49a7c1">
+   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/jhonatanffelipe/BaseConhecimento?color=49a7c1">
+   <img alt="Ultimo commit no Github" src="https://img.shields.io/github/last-commit/jhonatanffelipe/BaseConhecimento?color=49a7c1">
+   <img alt="Criado por" src="https://img.shields.io/badge/made%20by-jhonatanffelipe-%20?color=49a7c1">
+   <img alt="Linguagens mais usadas no programa" src="https://img.shields.io/github/languages/top/jhonatanffelipe/BaseConhecimento?color=49a7c1">
+</p>
 
 ## Backend
 
