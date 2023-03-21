@@ -19,7 +19,7 @@
     "pm2": "^5.1.0"
   },
   "scripts": {
-    "start": "nodemon",
+    "dev": "nodemon",
     "production": "pm2 start index.js --name baseConhecimento-backend"
   },
   "devDependencies": {
