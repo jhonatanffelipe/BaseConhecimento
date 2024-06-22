@@ -1,6 +1,8 @@
+const { mongoConnect } = require("../.env");
+
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://172.17.0.3/base_conhecimento", {
+  .connect(mongoConnect, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
